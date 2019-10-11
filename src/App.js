@@ -1,29 +1,25 @@
 import React, {useEffect, useState} from 'react';
 import {useForm} from "./useForm"
 import { Hello } from './Hello';
+import { useFetch } from './useFetch';
 
 
 const App = () => {
   const [values, handleChange] = useForm({ 
     email:'', password:'', firstName :''
   })
-
-  // useEffect(()=>{
-  //   const onMouseMove = e=>{
-  //     console.log(e)
-  //   }
-  //   window.addEventListener('mousemove', onMouseMove)
-
-  //   return ()=>{ // cleanup
-  //     window.removeEventListener('mousemove',onMouseMove)
-  //     console.log("unmount")
-  //   }
-  // },[])
+  const [count, setCount] = useState(0)
+  const {data, loading} = useFetch(`http://numbersapi.com/${count}/trivia`)
 
   // const [showHello, setShowHello] = useState(true)
 
   return (
     <div>
+      <div>
+        {loading? 'loading....': data}
+        <div>count: {count}</div>
+        <button onClick={()=>setCount(c=>c+1)}> Increment</button>
+      </div>
       <>
         {/* <button onClick = {()=>setShowHello(showHello=>!showHello)}> tootle
         </button>
