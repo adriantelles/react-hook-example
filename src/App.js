@@ -1,41 +1,40 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {useForm} from "./useForm"
-// import { Hello } from './Hello';
-import { useFetch } from './useFetch';
+import { Hello } from './Hello';
 
 
 const App = () => {
   const [values, handleChange] = useForm({ 
     email:'', password:'', firstName :''
   })
-  const [count, setCount] = useState(()=>
-    JSON.parse(localStorage.getItem('count')))
-
-  const {data, loading} = useFetch(`http://numbersapi.com/${count}/trivia`)
-
-  useEffect(()=>{
-    localStorage.setItem("count",JSON.stringify(count))
-  }, [count])
 
 
-  // const [showHello, setShowHello] = useState(true)
+  const inputRef = useRef()
+  const hello = useRef(()=>console.log('hello'))
+  const [showHello, setShowHello] = useState(true)
+
+  // useLayoutEffect(() => {
+  //   console.log(inputRef.current.getBoundingClientRect())
+  //   return () => {
+      
+  //   };
+  // }, [])
 
   return (
-    <div>
-      <div>
-        {loading? 'loading....': data}
-        <div>count: {count}</div>
-        <button onClick={()=>setCount(c => c + 1)}> Increment</button>
-      </div>
+    <div style={{padding: "10px"}}>
       <>
-      
-        {/* <button onClick = {()=>setShowHello(showHello=>!showHello)}> tootle
+        <button onClick = {()=>setShowHello(showHello=>!showHello)}> tootle
         </button>
-        {showHello && <Hello/ >} */}
-        
-        <input name="email" value = {values.email} onChange={handleChange}/>
+        {showHello && <Hello/ >}
+        <input ref = {inputRef} name ='email' value = {values.email} onChange={handleChange} />
+        {/* <input name="email" value = {values.email} onChange={handleChange}/> */}
         <input name="firstName" value = {values.firstName} placeholder = "first name" onChange={handleChange}/>
         <input type="password" name = "password" value = {values.password} onChange={handleChange}  />
+        
+        <button onClick={()=>{
+          inputRef.current.focus();
+          hello.current();
+        }}>focus</button>
       </>
     </div>
   )
