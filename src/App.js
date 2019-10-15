@@ -1,41 +1,27 @@
-import React, {useState, useRef} from 'react';
-import {useForm} from "./useForm"
-import { Hello } from './Hello';
+import React, { useState , useCallback } from 'react'
+import { Hello } from './Hello'
+import { Square } from './sqaure'
+
+const App = ()=>{
+
+  const [count, setCount] = useState(0)
+  const favoriteNums = [7,21,37]
+  
+  const increment = useCallback((n)=>{
+    setCount( c => c + n )
+  },[setCount])
 
 
-const App = () => {
-  const [values, handleChange] = useForm({ 
-    email:'', password:'', firstName :''
-  })
-
-
-  const inputRef = useRef()
-  const hello = useRef(()=>console.log('hello'))
-  const [showHello, setShowHello] = useState(true)
-
-  // useLayoutEffect(() => {
-  //   console.log(inputRef.current.getBoundingClientRect())
-  //   return () => {
-      
-  //   };
-  // }, [])
-
-  return (
-    <div style={{padding: "10px"}}>
-      <>
-        <button onClick = {()=>setShowHello(showHello=>!showHello)}> tootle
-        </button>
-        {showHello && <Hello/ >}
-        <input ref = {inputRef} name ='email' value = {values.email} onChange={handleChange} />
-        {/* <input name="email" value = {values.email} onChange={handleChange}/> */}
-        <input name="firstName" value = {values.firstName} placeholder = "first name" onChange={handleChange}/>
-        <input type="password" name = "password" value = {values.password} onChange={handleChange}  />
-        
-        <button onClick={()=>{
-          inputRef.current.focus();
-          hello.current();
-        }}>focus</button>
-      </>
+  return(
+    <div>
+      <Hello increment = {increment}/>
+      <div>count: {count}</div>
+      {favoriteNums.map((n)=>{
+        console.log(n)
+        return(
+          <Square increment = {increment} key = {n} n = {n} />
+        )
+      })}
     </div>
   )
 }
