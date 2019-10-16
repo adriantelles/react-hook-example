@@ -1,12 +1,13 @@
-import React , { useState, useMemo } from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import { Index }  from "./pages"
-import { About }  from "./pages/about"
-import { UserContext } from './userContext';
+import React, { useState, useMemo } from "react";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Index } from "./pages";
+import { About } from "./pages/about";
+import { UserContext } from "./userContext";
 
 export default function AppRouter() {
   const [user, setUser] = useState(null);
-  const providerValue = useMemo(()=>({user,setUser}),[user, setUser])
+  const providerValue = useMemo(() => ({ user, setUser }), [user, setUser]);
+
   return (
     <Router>
       <div>
@@ -20,11 +21,11 @@ export default function AppRouter() {
             </li>
           </ul>
         </nav>
-        <UserContext.Provider value = { providerValue }>
+        <UserContext.Provider value={providerValue}>
           <Route path="/" exact component={Index}></Route>
-          <Route path="/about"  component={About}></Route>
+          <Route path="/about" component={About}></Route>
         </UserContext.Provider>
       </div>
     </Router>
-  )
+  );
 }
